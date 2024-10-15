@@ -1,4 +1,4 @@
-SRC = libc.c philo.c philo_utils.c
+SRC = libc.c philo.c philo_utils.c philo_time.c
 NAME = philo
 CC = cc
 FLAGS = -Wall -Wextra -Werror

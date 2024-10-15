@@ -6,22 +6,26 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:19:22 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/15 03:31:40 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/15 06:41:17 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_struct(t_philo *ph, char **av)
+int	init_struct(t_philo *ph, char **av)
 {
 	ph->num_of_philos = ft_atoi(av[1]);
 	ph->time_to_eat = ft_atoi(av[2]);
 	ph->time_to_die = ft_atoi(av[3]);
 	ph->time_to_sleep = ft_atoi(av[4]);
+	ph->num_times_to_eat = -1;
 	if (av[5])
 		ph->num_times_to_eat = ft_atoi(av[5]);
-	else
-		ph->num_times_to_eat = 0;
+	ph->start_time = get_current_time();
+	if (pthread_mutex_init(&ph->mutex.lock, NULL) != 0)
+		return (1);
+	ph->end_loop = false;
+	return (0);
 }
 
 void	printf_args(t_philo *ph)
@@ -30,6 +34,7 @@ void	printf_args(t_philo *ph)
 time it takes a philosopher to eat: %zu\ntime it takes a philosopher to sleep: %zu\n\
 Number of times all the philosophers need to eat before terminating the program: %d\n",
 ph->num_of_philos, ph->time_to_eat, ph->time_to_die, ph->time_to_sleep, ph->num_times_to_eat);
+	printf("start time of day: %zu\n", ph->start_time);
 }
 
 int main(int ac, char **av)
@@ -38,9 +43,8 @@ int main(int ac, char **av)
 
 	if (ac != 5 && ac != 6)
 		return (ft_putstr("invalid number of arguments\n", 2), 1);
-	if (check_input(av))
+	if (check_input(av) || init_struct(&ph, av))
 		return (1);
-	init_struct(&ph, av);
 	printf_args(&ph);
 	return (0);
 }

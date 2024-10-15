@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:43:07 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/15 04:10:48 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/15 06:40:10 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,37 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <pthread.h>
+# include <stdbool.h>
 # include <limits.h>
+# include <sys/time.h>
 
 typedef struct s_mutex
 {
+	int				philo_nbr;
+	int				meal_eaten;
 	pthread_mutex_t	*l_fork;
-	pthread_mutex_t *r_fork;
-	pthread_mutex_t	*meal;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	lock;
+	pthread_t		t_id;
 }	t_mutex;
 
 typedef struct s_philo
 {
-	pthread_t		thread;
+	int				num_of_philos;
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	size_t			start_time;
-	int				num_of_philos;
 	int				num_times_to_eat;
+	size_t			start_time;
+	bool			end_loop;
 	t_mutex			mutex;
 } t_philo;
+
+# define TAKE_FORK "has taken a fork\n";
+# define DROP_FORK "has dropped a fork\n";
+# define EAT "is eating\n";
+# define SLEEP "is sleeping\n"
+# define DEAD "is dead\n"
 
 void	ft_putchar(char c, int fd);
 void	ft_putstr(char *s, int fd);
