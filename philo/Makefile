@@ -1,7 +1,7 @@
 SRC = libc.c philo.c philo_utils.c philo_time.c
 NAME = philo
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -pthread
 OBJS = $(addprefix obj/, $(SRC:.c=.o))
 INC = philo.h
 
