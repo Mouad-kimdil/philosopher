@@ -37,9 +37,9 @@
 		bool			eating;
 		bool			dead;
 		int				meals;
-		pthread_mutex_t	end_lock;
-		pthread_mutex_t	message;
-		pthread_mutex_t	meal;
+		pthread_mutex_t	*end_lock;
+		pthread_mutex_t	*message;
+		pthread_mutex_t	*meal;
 		pthread_mutex_t	*l_fork;
 		pthread_mutex_t	*r_fork;
 		size_t			start_time;
