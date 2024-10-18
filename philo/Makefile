@@ -1,4 +1,5 @@
-SRC = libc.c philo.c philo_utils.c philo_time.c
+SRC = libc.c philo.c philo_utils.c philo_time.c philo_routine.c mutex_init.c \
+	 	initialize.c philo_state.c
 NAME = philo
 CC = cc
 FLAGS = -Wall -Wextra -Werror
@@ -15,7 +16,7 @@ obj/%.o: %.c ${INC}
 	${CC} ${FLAGS} -c $< -o $@
 
 clean:
-	rm -rf ${OBJS}
+	rm -rf obj
 
 fclean: clean
 	rm -rf ${NAME}
