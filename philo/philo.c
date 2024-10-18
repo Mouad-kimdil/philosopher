@@ -3,7 +3,7 @@
 bool	dead_l(t_philo *ph)
 {
 	pthread_mutex_lock(ph->end_lock);
-	if (ph->dead == true)
+	if (*ph->dead == 1)
 	{
 		pthread_mutex_unlock(ph->end_lock);
 		return (true);
@@ -56,10 +56,10 @@ void	print_args(t_philo ph)
 	printf("time to eat: %zu\t", ph.args->time_to_eat);
 	printf("time to sleep: %zu\t", ph.args->time_to_sleep);
 	printf("number of times to eat: %d\t", ph.args->num_times_to_eat);
-	printf("thread: %p\t", ph.thread);
+	printf("thread: %p\t", &ph.thread);
 	printf("philo id: %d\t", ph.philo_id);
 	printf("eating: %d\t", ph.eating);
-	printf("dead: %d\t", ph.dead);
+	printf("dead: %d\t", *ph.dead);
 	printf("meals: %d\t", ph.meals);
 	printf("end lock: %p\t", ph.end_lock);
 	printf("message: %p\t", ph.message);
@@ -86,14 +86,13 @@ int main(int ac, char **av)
 	mutex.lock = mutex_end(&args);
 	mutex.msg = mutex_message(&args);
 	mutex.mel = mutex_meal(&args);
+	mutex.death = 0;
 	forks = mutex_fork(&args);
 	if (!forks)
 		return (EXIT_FAILURE);
 	ph = init_ph(&args, forks, &mutex);
 	if (!ph)
 		return (EXIT_FAILURE);
-    // for (int i = 0; i < args.num_of_philos; i++)
-    //     print_args(ph[i]);
 	start_philo(&args, ph);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shisui <shisui@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:43:07 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/18 01:40:12 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/18 06:08:20 by shisui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 typedef	struct s_mutex
 {
+	int				death;
 	pthread_mutex_t	*lock;
 	pthread_mutex_t	*msg;
 	pthread_mutex_t	*mel;
@@ -42,8 +43,8 @@ typedef struct s_philo
 	pthread_t		thread;
 	int				philo_id;
 	bool			eating;
-	bool			dead;
 	int				meals;
+	int				*dead;
 	pthread_mutex_t	*end_lock;
 	pthread_mutex_t	*message;
 	pthread_mutex_t	*meal;

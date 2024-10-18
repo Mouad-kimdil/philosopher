@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_routine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shisui <shisui@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 00:38:17 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/18 01:31:51 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/18 06:36:49 by shisui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	sleep_routine(t_philo *ph)
 {
-	print_message(ph, EAT);
+	print_message(ph, SLEEP);
 	ft_usleep(ph->args->time_to_sleep);
 }
 
@@ -25,19 +25,32 @@ void	think_routine(t_philo *ph)
 
 void	eat_routine(t_philo *ph)
 {
-	pthread_mutex_lock(ph->r_fork);
-	print_message(ph, TAKE_FORK);
+	pthread_mutex_lock(ph->meal);
 	if (ph->args->num_of_philos == 1)
-	{
+    {
+		pthread_mutex_lock(ph->r_fork);
+		print_message(ph, TAKE_FORK);
 		ft_usleep(ph->args->time_to_die);
 		pthread_mutex_unlock(ph->r_fork);
+		pthread_mutex_unlock(ph->meal);
 		return ;
 	}
-	pthread_mutex_lock(ph->l_fork);	
-	print_message(ph, TAKE_FORK);
+	if (ph->l_fork < ph->r_fork)
+	{
+		pthread_mutex_lock(ph->l_fork);
+		print_message(ph, TAKE_FORK);
+		pthread_mutex_lock(ph->r_fork);
+		print_message(ph, TAKE_FORK);
+	}
+	else
+	{
+		pthread_mutex_lock(ph->r_fork);
+		print_message(ph, TAKE_FORK);
+		pthread_mutex_lock(ph->l_fork);
+		print_message(ph, TAKE_FORK);
+	}
 	ph->eating = true;
 	print_message(ph, EAT);
-	pthread_mutex_lock(ph->meal);
 	ph->last_meal_time = get_current_time();
 	ph->meals++;
 	pthread_mutex_unlock(ph->meal);

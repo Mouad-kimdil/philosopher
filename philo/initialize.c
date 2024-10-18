@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shisui <shisui@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 00:46:59 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/18 01:17:51 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/18 06:04:31 by shisui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_philo	*init_ph(t_arg *args, pthread_mutex_t *forks, t_mutex *mutex)
 	{
 		ph[i].philo_id = i + 1;
 		ph[i].eating = false;
-		ph[i].dead = false;
+		ph[i].dead = &mutex->death;
 		ph[i].meals = 0;
 		ph[i].end_lock = &mutex->lock[i];
 		ph[i].message = &mutex->msg[i];
