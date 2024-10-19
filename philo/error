@@ -1,0 +1,85 @@
+==================
+WARNING: ThreadSanitizer: data race (pid=94670)
+  Read of size 4 at 0x7ffee65fe8c0 by thread T3 (mutexes: write M17):
+    #0 check <null>:2 (philo:x86_64+0x10000138a)
+    #1 print_message <null>:2 (philo:x86_64+0x100001477)
+    #2 sleep_routine <null>:2 (philo:x86_64+0x10000206f)
+    #3 routine <null>:2 (philo:x86_64+0x100002784)
+
+  Previous write of size 4 at 0x7ffee65fe8c0 by thread T1 (mutexes: write M16):
+    #0 check_is_eat <null>:2 (philo:x86_64+0x100003b46)
+    #1 deatach <null>:2 (philo:x86_64+0x100003bfb)
+
+  As if synchronized via sleep:
+    #0 usleep <null>:3 (libclang_rt.tsan_osx_dynamic.dylib:x86_64h+0x2c5ae)
+    #1 ft_usleep <null>:2 (philo:x86_64+0x100001f95)
+    #2 eat_routine <null>:2 (philo:x86_64+0x100002628)
+    #3 routine <null>:2 (philo:x86_64+0x10000277b)
+
+  Location is stack of main thread.
+
+  Mutex M17 (0x7b4400000040) created at:
+    #0 pthread_mutex_init <null>:3 (libclang_rt.tsan_osx_dynamic.dylib:x86_64h+0x2e913)
+    #1 mutex_end <null>:2 (philo:x86_64+0x1000029fb)
+    #2 main <null>:2 (philo:x86_64+0x100001a97)
+
+  Mutex M16 (0x7b4400000000) created at:
+    #0 pthread_mutex_init <null>:3 (libclang_rt.tsan_osx_dynamic.dylib:x86_64h+0x2e913)
+    #1 mutex_end <null>:2 (philo:x86_64+0x1000029fb)
+    #2 main <null>:2 (philo:x86_64+0x100001a97)
+
+  Thread T3 (tid=920012, running) created by main thread at:
+    #0 pthread_create <null>:3 (libclang_rt.tsan_osx_dynamic.dylib:x86_64h+0x2d8fd)
+    #1 start_philo <null>:2 (philo:x86_64+0x1000015f9)
+    #2 main <null>:2 (philo:x86_64+0x100001ba6)
+
+  Thread T1 (tid=920010, finished) created by main thread at:
+    #0 pthread_create <null>:3 (libclang_rt.tsan_osx_dynamic.dylib:x86_64h+0x2d8fd)
+    #1 start_philo <null>:2 (philo:x86_64+0x100001576)
+    #2 main <null>:2 (philo:x86_64+0x100001ba6)
+
+SUMMARY: ThreadSanitizer: data race (philo:x86_64+0x10000138a) in check+0x7a
+==================
+==================
+WARNING: ThreadSanitizer: data race (pid=94670)
+  Read of size 4 at 0x7ffee65fe8c0 by thread T4 (mutexes: write M18):
+    #0 check <null>:2 (philo:x86_64+0x10000138a)
+    #1 print_message <null>:2 (philo:x86_64+0x100001477)
+    #2 think_routine <null>:2 (philo:x86_64+0x1000020ff)
+    #3 routine <null>:2 (philo:x86_64+0x10000278d)
+
+  Previous write of size 4 at 0x7ffee65fe8c0 by thread T1 (mutexes: write M16):
+    #0 check_is_eat <null>:2 (philo:x86_64+0x100003b46)
+    #1 deatach <null>:2 (philo:x86_64+0x100003bfb)
+
+  As if synchronized via sleep:
+    #0 usleep <null>:3 (libclang_rt.tsan_osx_dynamic.dylib:x86_64h+0x2c5ae)
+    #1 ft_usleep <null>:2 (philo:x86_64+0x100001f95)
+    #2 sleep_routine <null>:2 (philo:x86_64+0x1000020b4)
+    #3 routine <null>:2 (philo:x86_64+0x100002784)
+
+  Location is stack of main thread.
+
+  Mutex M18 (0x7b4400000080) created at:
+    #0 pthread_mutex_init <null>:3 (libclang_rt.tsan_osx_dynamic.dylib:x86_64h+0x2e913)
+    #1 mutex_end <null>:2 (philo:x86_64+0x1000029fb)
+    #2 main <null>:2 (philo:x86_64+0x100001a97)
+
+  Mutex M16 (0x7b4400000000) created at:
+    #0 pthread_mutex_init <null>:3 (libclang_rt.tsan_osx_dynamic.dylib:x86_64h+0x2e913)
+    #1 mutex_end <null>:2 (philo:x86_64+0x1000029fb)
+    #2 main <null>:2 (philo:x86_64+0x100001a97)
+
+  Thread T4 (tid=920013, running) created by main thread at:
+    #0 pthread_create <null>:3 (libclang_rt.tsan_osx_dynamic.dylib:x86_64h+0x2d8fd)
+    #1 start_philo <null>:2 (philo:x86_64+0x1000015f9)
+    #2 main <null>:2 (philo:x86_64+0x100001ba6)
+
+  Thread T1 (tid=920010, finished) created by main thread at:
+    #0 pthread_create <null>:3 (libclang_rt.tsan_osx_dynamic.dylib:x86_64h+0x2d8fd)
+    #1 start_philo <null>:2 (philo:x86_64+0x100001576)
+    #2 main <null>:2 (philo:x86_64+0x100001ba6)
+
+SUMMARY: ThreadSanitizer: data race (philo:x86_64+0x10000138a) in check+0x7a
+==================
+ThreadSanitizer: reported 2 warnings

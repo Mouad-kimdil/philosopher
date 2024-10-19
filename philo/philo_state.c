@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   philo_state.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shisui <shisui@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 00:44:13 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/18 06:39:35 by shisui           ###   ########.fr       */
+/*   Updated: 2024/10/19 16:49:40 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-bool philo_dead(t_philo *ph, size_t time_to_die)
+bool	philo_dead(t_philo *ph, size_t time_to_die)
 {
-	bool	is_dead;
-
-    pthread_mutex_lock(ph->meal);
-    is_dead = (get_current_time() - ph->last_meal_time >= time_to_die && !ph->eating);
-    pthread_mutex_unlock(ph->meal);
-    return (is_dead);
+	pthread_mutex_lock(ph->meal);
+	if (get_current_time() - ph->last_meal_time	>= time_to_die
+		&& ph->eating == false)
+		return (pthread_mutex_unlock(ph->meal), true);
+	pthread_mutex_unlock(ph->meal);
+	return (false);
 }
 
 bool	check_is_dead(t_philo *ph)
@@ -32,9 +32,9 @@ bool	check_is_dead(t_philo *ph)
 		if (philo_dead(&ph[i], ph[i].args->time_to_die))
 		{
 			print_message(ph, DEAD);
-			pthread_mutex_lock(ph[0].end_lock);
+			pthread_mutex_lock(ph[i].end_lock);
 			*ph->dead = 1;
-			pthread_mutex_unlock(ph[0].end_lock);
+			pthread_mutex_unlock(ph[i].end_lock);
 			return (true);
 		}
 		i++;
@@ -80,9 +80,9 @@ void	*deatach(void *arg)
 	ph = (t_philo *)arg;
 	while (true)
 	{
-		while (!check_is_dead(ph) && !check_is_eat(ph))
-			ft_usleep(100);
-		break ;
+		if (check_is_dead(ph) == 1 || check_is_eat(ph) == 1)
+			break ;
+		ft_usleep(200);
 	}
 	return (arg);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shisui <shisui@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:43:07 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/18 06:08:20 by shisui           ###   ########.fr       */
+/*   Updated: 2024/10/19 16:02:49 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ void			eat_routine(t_philo *ph);
 void			*routine(void *arg);
 void			free_forks(pthread_mutex_t *forks, int i);
 pthread_mutex_t	*mutex_fork(t_arg *args);
-pthread_mutex_t	*mutex_end(t_arg *args);
-pthread_mutex_t	*mutex_message(t_arg *args);
-pthread_mutex_t	*mutex_meal(t_arg *args);
+pthread_mutex_t	*mutex_end(void);
+pthread_mutex_t	*mutex_message(void);
+pthread_mutex_t	*mutex_meal(void);
 bool			philo_dead(t_philo *ph, size_t time_to_die);
 bool			check_is_dead(t_philo *ph);
 bool			check_is_eat(t_philo *ph);

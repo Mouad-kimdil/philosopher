@@ -83,9 +83,9 @@ int main(int ac, char **av)
 	if (check_input(av))
 		return (1);
 	init_arg(&args, av);
-	mutex.lock = mutex_end(&args);
-	mutex.msg = mutex_message(&args);
-	mutex.mel = mutex_meal(&args);
+	mutex.lock = mutex_end();
+	mutex.msg = mutex_message();
+	mutex.mel = mutex_meal();
 	mutex.death = 0;
 	forks = mutex_fork(&args);
 	if (!forks)

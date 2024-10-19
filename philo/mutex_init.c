@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 00:41:41 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/18 00:46:29 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/19 16:02:00 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,56 +44,38 @@ pthread_mutex_t	*mutex_fork(t_arg *args)
 	return (forks);
 }
 
-pthread_mutex_t	*mutex_end(t_arg *args)
+pthread_mutex_t	*mutex_end(void)
 {
 	pthread_mutex_t	*end_lock;
-	int				i;
 
-	end_lock = malloc(sizeof(pthread_mutex_t) * args->num_of_philos);
+	end_lock = malloc(sizeof(pthread_mutex_t));
 	if (!end_lock)
 		return (NULL);
-	i = 0;
-	while (i < args->num_of_philos)
-	{
-		if (pthread_mutex_init(&end_lock[i], NULL) != 0)
-			return (free_forks(end_lock, i), NULL);
-		i++;
-	}
+	if (pthread_mutex_init(end_lock, NULL) != 0)
+		return (NULL);
 	return (end_lock);
 }
 
-pthread_mutex_t	*mutex_message(t_arg *args)
+pthread_mutex_t	*mutex_message(void)
 {
 	pthread_mutex_t	*message;
-	int				i;
 
-	message = malloc(sizeof(pthread_mutex_t) * args->num_of_philos);
+	message = malloc(sizeof(pthread_mutex_t));
 	if (!message)
 		return (NULL);
-	i = 0;
-	while (i < args->num_of_philos)
-	{
-		if (pthread_mutex_init(&message[i], NULL) != 0)
-			return (free_forks(message, i), NULL);
-		i++;
-	}
+	if (pthread_mutex_init(message, NULL) != 0)
+		return (NULL);
 	return (message);
 }
 
-pthread_mutex_t	*mutex_meal(t_arg *args)
+pthread_mutex_t	*mutex_meal(void)
 {
 	pthread_mutex_t	*meal;
-	int				i;
 
-	meal = malloc(sizeof(pthread_mutex_t) * args->num_of_philos);
+	meal = malloc(sizeof(pthread_mutex_t));
 	if (!meal)
 		return (NULL);
-	i = 0;
-	while (i < args->num_of_philos)
-	{
-		if (pthread_mutex_init(&meal[i], NULL) != 0)
-			return (free_forks(meal, i), NULL);
-		i++;
-	}
+	if (pthread_mutex_init(meal, NULL) != 0)
+		return (NULL);
 	return (meal);
 }

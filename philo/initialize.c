@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shisui <shisui@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 00:46:59 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/18 06:04:31 by shisui           ###   ########.fr       */
+/*   Updated: 2024/10/19 16:03:14 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ t_philo	*init_ph(t_arg *args, pthread_mutex_t *forks, t_mutex *mutex)
 		ph[i].eating = false;
 		ph[i].dead = &mutex->death;
 		ph[i].meals = 0;
-		ph[i].end_lock = &mutex->lock[i];
-		ph[i].message = &mutex->msg[i];
-		ph[i].meal = &mutex->mel[i];
+		ph[i].end_lock = mutex->lock;
+		ph[i].message = mutex->msg;
+		ph[i].meal = mutex->mel;
 		ph[i].r_fork = &forks[i];	
 		ph[i].l_fork = &forks[(i + 1) % args->num_of_philos];
 		ph[i].start_time = get_current_time();
