@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 00:38:17 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/19 16:46:29 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/19 23:29:14 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	*routine(void *arg)
 	t_philo	*ph;
 
 	ph = (t_philo *)arg;
-	if (ph->philo_id % 2 == 0)
-		ft_usleep(1);
+	// if (ph->philo_id % 2 == 0)
+	// 	ft_usleep(500);
 	while (!dead_l(ph))
 	{
 		eat_routine(ph);

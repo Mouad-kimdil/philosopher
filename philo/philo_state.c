@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 00:44:13 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/19 16:49:40 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/19 23:53:51 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,33 +44,34 @@ bool	check_is_dead(t_philo *ph)
 
 bool check_is_eat(t_philo *ph)
 {
-    int	i;
-    int finish = 0;
+	int	i;
+	int	finish;
 
 	i = 0;
-    pthread_mutex_lock(ph[0].end_lock);
-    if (ph[0].args->num_times_to_eat == -1)
-    {
-        pthread_mutex_unlock(ph[0].end_lock);
-        return (false);
-    }
-    pthread_mutex_unlock(ph[0].end_lock);
-    while (i < ph[0].args->num_of_philos)
-    {
-        pthread_mutex_lock(ph[i].meal);
-        if (ph[i].meals >= ph[i].args->num_times_to_eat)
-            finish++;
-        pthread_mutex_unlock(ph[i].meal);
-        i++;
-    }
-    if (finish == ph[0].args->num_of_philos)
-    {
-        pthread_mutex_lock(ph[0].end_lock);
-        *ph->dead = 1;
-        pthread_mutex_unlock(ph[0].end_lock);
-        return (true);
-    }
-    return (false);
+	pthread_mutex_lock(ph[0].end_lock);
+	if (ph[0].args->num_times_to_eat == -1)
+	{
+		pthread_mutex_unlock(ph[0].end_lock);
+		return (false);
+	}
+	pthread_mutex_unlock(ph[0].end_lock);
+	finish = 0;
+	while (i < ph[0].args->num_of_philos)
+	{
+		pthread_mutex_lock(ph[i].meal);
+		if (ph[i].meals >= ph[i].args->num_times_to_eat)
+			finish++;
+		pthread_mutex_unlock(ph[i].meal);
+		i++;
+	}
+	if (finish == ph[0].args->num_of_philos)
+	{
+		pthread_mutex_lock(ph[0].end_lock);
+		*ph->dead = 1;
+		pthread_mutex_unlock(ph[0].end_lock);
+		return (true);
+	}
+	return (false);
 }
 
 void	*deatach(void *arg)

@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:42:59 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/15 03:54:22 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/19 22:51:20 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	check_input(char **av)
 	int	i;
 
 	i = 0;
-	while (av[++i + 1])
+	while (av[++i])
 	{
 		if (is_valid_number(av[i]) || check_overflow(av[i]))
 			return (1);
