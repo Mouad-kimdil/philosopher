@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:06:15 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/20 18:09:05 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/20 18:27:48 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,5 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	start_philo(&args, ph);
 	free_all(ph, forks, &mutex);
-	return (0);
+	return (free(mutex.lock), free(mutex.msg), free(mutex.mel), 0);
 }
