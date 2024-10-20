@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 00:38:17 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/19 23:29:14 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/20 18:17:37 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,27 @@ void	think_routine(t_philo *ph)
 	print_message(ph, THINK);
 }
 
+void	lock_forks(t_philo *ph, int flag)
+{
+	if (flag == 1)
+	{
+		pthread_mutex_lock(ph->l_fork);
+		print_message(ph, TAKE_FORK);
+		pthread_mutex_lock(ph->r_fork);
+		print_message(ph, TAKE_FORK);
+		return ;
+	}
+	pthread_mutex_lock(ph->r_fork);
+	print_message(ph, TAKE_FORK);
+	pthread_mutex_lock(ph->l_fork);
+	print_message(ph, TAKE_FORK);
+}
+
 void	eat_routine(t_philo *ph)
 {
 	pthread_mutex_lock(ph->meal);
 	if (ph->args->num_of_philos == 1)
-    {
+	{
 		pthread_mutex_lock(ph->r_fork);
 		print_message(ph, TAKE_FORK);
 		ft_usleep(ph->args->time_to_die);
@@ -36,19 +52,9 @@ void	eat_routine(t_philo *ph)
 		return ;
 	}
 	if (ph->l_fork < ph->r_fork)
-	{
-		pthread_mutex_lock(ph->l_fork);
-		print_message(ph, TAKE_FORK);
-		pthread_mutex_lock(ph->r_fork);
-		print_message(ph, TAKE_FORK);
-	}
+		lock_forks(ph, 1);
 	else
-	{
-		pthread_mutex_lock(ph->r_fork);
-		print_message(ph, TAKE_FORK);
-		pthread_mutex_lock(ph->l_fork);
-		print_message(ph, TAKE_FORK);
-	}
+		lock_forks(ph, 0);
 	ph->eating = true;
 	print_message(ph, EAT);
 	ph->last_meal_time = get_current_time();
@@ -65,8 +71,6 @@ void	*routine(void *arg)
 	t_philo	*ph;
 
 	ph = (t_philo *)arg;
-	// if (ph->philo_id % 2 == 0)
-	// 	ft_usleep(500);
 	while (!dead_l(ph))
 	{
 		eat_routine(ph);

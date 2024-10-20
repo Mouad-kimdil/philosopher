@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:43:07 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/19 16:02:49 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/20 18:17:52 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <limits.h>
 # include <sys/time.h>
 
-typedef	struct s_mutex
+typedef struct s_mutex
 {
 	int				death;
 	pthread_mutex_t	*lock;
@@ -36,7 +36,7 @@ typedef struct s_arg
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	int				num_times_to_eat;
-} t_arg;
+}	t_arg;
 
 typedef struct s_philo
 {
@@ -53,7 +53,7 @@ typedef struct s_philo
 	size_t			start_time;
 	size_t			last_meal_time;
 	t_arg			*args;
-} t_philo;
+}	t_philo;
 
 # define TAKE_FORK "has taken a fork"
 # define DROP_FORK "has dropped a fork"
@@ -89,5 +89,9 @@ t_philo			*init_ph(t_arg *args, pthread_mutex_t *forks, t_mutex *mutex);
 bool			dead_l(t_philo *ph);
 void			print_message(t_philo *ph, char *message);
 int				start_philo(t_arg *args, t_philo *ph);
+int				destroy_forks(pthread_mutex_t *fork, int num_of_philo);
+int				free_mutex(t_mutex *mutex);
+int				free_all(t_philo *ph, pthread_mutex_t *fork, t_mutex *mutex);
+void			lock_forks(t_philo *ph, int flag);
 
 #endif

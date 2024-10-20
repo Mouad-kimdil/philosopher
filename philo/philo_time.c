@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 02:15:01 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/15 02:15:22 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/20 18:18:46 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,3 @@ size_t	get_current_time(void)
 		write(2, "gettimeofday() error\n", 22);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
-

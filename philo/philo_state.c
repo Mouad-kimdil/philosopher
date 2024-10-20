@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 00:44:13 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/19 23:53:51 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/20 18:18:39 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	philo_dead(t_philo *ph, size_t time_to_die)
 {
 	pthread_mutex_lock(ph->meal);
-	if (get_current_time() - ph->last_meal_time	>= time_to_die
+	if (get_current_time() - ph->last_meal_time >= time_to_die
 		&& ph->eating == false)
 		return (pthread_mutex_unlock(ph->meal), true);
 	pthread_mutex_unlock(ph->meal);
@@ -24,7 +24,7 @@ bool	philo_dead(t_philo *ph, size_t time_to_die)
 
 bool	check_is_dead(t_philo *ph)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < ph[0].args->num_of_philos)
@@ -42,34 +42,29 @@ bool	check_is_dead(t_philo *ph)
 	return (false);
 }
 
-bool check_is_eat(t_philo *ph)
+bool	check_is_eat(t_philo *ph)
 {
 	int	i;
 	int	finish;
 
-	i = 0;
+	i = -1;
 	pthread_mutex_lock(ph[0].end_lock);
 	if (ph[0].args->num_times_to_eat == -1)
-	{
-		pthread_mutex_unlock(ph[0].end_lock);
-		return (false);
-	}
+		return (pthread_mutex_unlock(ph[0].end_lock), false);
 	pthread_mutex_unlock(ph[0].end_lock);
 	finish = 0;
-	while (i < ph[0].args->num_of_philos)
+	while (++i < ph[0].args->num_of_philos)
 	{
 		pthread_mutex_lock(ph[i].meal);
 		if (ph[i].meals >= ph[i].args->num_times_to_eat)
 			finish++;
 		pthread_mutex_unlock(ph[i].meal);
-		i++;
 	}
 	if (finish == ph[0].args->num_of_philos)
 	{
 		pthread_mutex_lock(ph[0].end_lock);
 		*ph->dead = 1;
-		pthread_mutex_unlock(ph[0].end_lock);
-		return (true);
+		return (pthread_mutex_unlock(ph[0].end_lock), true);
 	}
 	return (false);
 }
@@ -81,7 +76,7 @@ void	*deatach(void *arg)
 	ph = (t_philo *)arg;
 	while (true)
 	{
-		if (check_is_dead(ph) == 1 || check_is_eat(ph) == 1)
+		if (check_is_dead(ph) || check_is_eat(ph))
 			break ;
 		ft_usleep(200);
 	}
