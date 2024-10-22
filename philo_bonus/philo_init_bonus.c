@@ -19,6 +19,7 @@ t_philo	*init_philo(t_arg *args, t_sema *sem)
 		ph[i].dead = &args->die;
 		ph[i].sem = sem;
 		ph[i].args = args;
+		ph[i].pid = -1;
 		i++;
 	}
 	return (ph);

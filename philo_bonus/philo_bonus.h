@@ -31,6 +31,7 @@ typedef struct s_sema
 
 typedef struct s_philo
 {
+	pid_t	pid;
 	int		*dead;
 	int		meals;
 	int		philo_id;
@@ -40,6 +41,12 @@ typedef struct s_philo
 	t_sema	*sem;
 	t_arg	*args;
 }	t_philo;
+
+# define TAKE_FORK "has taken a fork"
+# define EAT "is eating"
+# define SLEEP "is sleeping"
+# define THINK "is thinking"
+# define DEAD "is dead"
 
 int		check_input(char **av);
 int		check_overflow(char *str);
@@ -54,5 +61,11 @@ int		ft_usleep(size_t milliseconds);
 size_t	get_current_time(void);
 t_philo	*init_philo(t_arg *args, t_sema *sem);
 void	init_sem(t_sema *sem, t_arg *args);
+void	monitoring(t_philo *ph);
+bool	check_is_dead(t_philo *ph);
+bool	philo_dead(t_philo *ph);
+bool	check_is_eat(t_philo *ph);
+bool	dead_l(t_philo *ph);
+void	print_message(t_philo *ph, char *s);
 
 #endif
