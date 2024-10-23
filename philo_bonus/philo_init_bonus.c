@@ -1,18 +1,12 @@
 #include "philo_bonus.h"
 
-void	init_philo(t_philo *ph, t_arg *args)
+t_philo	*init_philo(t_arg *args, t_sema *sem)
 {
+	t_philo	*ph;
 	int		i;
 
-	sem_unlink("dead_lock");
-	sem_unlink("message_lock");
-	sem_unlink("meal_lock");
-	sem_unlink("forks");
-	ph->dead_lock = sem_open("dead_lock", O_CREAT, 0600, 1);
-	ph->message_lock = sem_open("message_lock", O_CREAT, 0600, 1);
-	ph->meal_lock = sem_open("meal_lock", O_CREAT, 0600, 1);
-	ph->forks = sem_open("forks", O_CREAT, 0600, args->num_of_philos);
 	i = 0;
+	ph = malloc(sizeof(t_philo) * args->num_of_philos);
 	while (i < args->num_of_philos)
 	{
 		ph[i].philo_id = i + 1;
@@ -23,8 +17,13 @@ void	init_philo(t_philo *ph, t_arg *args)
 		ph[i].dead = &args->die;
 		ph[i].args = args;
 		ph[i].pid = -1;
+		ph[i].dead_lock = sem->dead;
+		ph[i].message_lock = sem->message;
+		ph[i].meal_lock = sem->meal;
+		ph[i].forks = sem->forks;
 		i++;
 	}
+	return (ph);
 }
 
 void	init_arg(t_arg *args, char **av)
@@ -37,5 +36,4 @@ void	init_arg(t_arg *args, char **av)
 	if (av[5])
 		args->num_times_to_eat = ft_atoi(av[5]);
 	args->die = 0;
-	printf("arg->die: %p\n", &args->die);
 }

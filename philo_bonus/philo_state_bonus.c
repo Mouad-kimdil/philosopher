@@ -16,7 +16,10 @@ bool	check_is_eat(t_philo *ph)
 	i = -1;
 	sem_wait(ph[0].dead_lock);
 	if (ph[0].args->num_of_philos == -1)
-		return (sem_post(ph[0].dead_lock), false);
+	{
+		sem_post(ph[0].dead_lock);
+		return (false);
+	}
 	sem_post(ph[0].dead_lock);
 	finish = 0;
 	while (++i < ph[0].args->num_of_philos)
@@ -74,7 +77,7 @@ void	*monitoring(void *arg)
 	{
 		if (check_is_eat(ph) || check_is_dead(ph))
 			break ;
-		ft_usleep(200);
+		ft_usleep(100);
 	}
 	return (arg);
 }

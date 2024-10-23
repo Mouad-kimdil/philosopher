@@ -10,6 +10,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <sys/time.h>
+# include <signal.h>
 
 typedef struct s_arg
 {
@@ -20,6 +21,14 @@ typedef struct s_arg
 	int				num_times_to_eat;
 	int				die;
 }	t_arg;
+
+typedef	struct s_sema
+{
+	sem_t	*message;
+	sem_t	*dead;
+	sem_t	*meal;
+	sem_t	*forks;
+}	t_sema;
 
 typedef struct s_philo
 {
@@ -54,7 +63,7 @@ void	ft_putchar(char c, int fd);
 void	ft_putstr(char *s, int fd);
 int		ft_usleep(size_t milliseconds);
 size_t	get_current_time(void);
-void	init_philo(t_philo *ph, t_arg *args);
+t_philo	*init_philo(t_arg *args, t_sema *sem);
 void	*monitoring(void *arg);
 bool	check_is_dead(t_philo *ph);
 bool	philo_dead(t_philo *ph);
