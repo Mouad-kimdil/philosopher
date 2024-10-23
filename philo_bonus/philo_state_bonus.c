@@ -77,7 +77,6 @@ void	*monitoring(void *arg)
 	{
 		if (check_is_eat(ph) || check_is_dead(ph))
 			break ;
-		ft_usleep(100);
 	}
 	return (arg);
 }

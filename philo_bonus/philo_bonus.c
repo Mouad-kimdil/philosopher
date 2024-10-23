@@ -54,6 +54,7 @@ void	philo_routine(t_philo *ph)
 	while (!dead_l(ph))
 	{
 		eat_routine(ph);
+		ft_usleep(9);
 		think_routine(ph);
 		sleep_routine(ph);
 	}
