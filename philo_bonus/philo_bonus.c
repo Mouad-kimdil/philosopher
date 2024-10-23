@@ -1,38 +1,105 @@
 #include "philo_bonus.h"
 
-void	print_args(t_philo *ph, int i)
+void	print_message(t_philo *ph, char *s)
 {
-	printf("philo_id: %d\n-------------------------------------\n", i + 1);
-	printf("Meals: %d\n", ph->meals);
-    printf("philo ID: %d\n", ph->philo_id);
-    printf("Eating: %s\n", ph->eating ? "true" : "false");
-    printf("Start Time: %zu\n", ph->start_time);
-    printf("Last Meal Time: %zu\n", ph->last_meal_time);
-    printf("Address of dead (int *): %p\n", (void *)ph->dead);
-    printf("Address of message_lock (sem_t *): %p\n", (void *)ph->sem->message_lock);
-    printf("Address of dead_lock (sem_t *): %p\n", (void *)ph->sem->dead_lock);
-    printf("Address of meal_lock (sem_t *): %p\n", (void *)ph->sem->meal_lock);
-    printf("Address of forks (sem_t *): %p\n", (void *)ph->sem->forks);
-    printf("Address of args (t_arg *): %p\n", (void *)ph->args);
-	printf("Number of Philosophers: %d\n", ph->args->num_of_philos);
-    printf("Time to Die: %zu\n", ph->args->time_to_die);
-    printf("Time to Eat: %zu\n", ph->args->time_to_eat);
-    printf("Time to Sleep: %zu\n", ph->args->time_to_sleep);
-    printf("Number of Times to Eat: %d\n", ph->args->num_times_to_eat);
-	printf("-------------------------------------\n");
+	size_t	time;
+
+	sem_wait(ph->message_lock);
+	time = get_current_time() - ph->start_time;
+	if (!dead_l(ph))		
+		printf("%zu %d %s\n", time, ph->philo_id, s);
+	sem_post(ph->message_lock);
+}
+
+void	eat_routine(t_philo *ph)
+{
+	sem_wait(ph->meal_lock);
+	if (ph->args->num_of_philos == 1)
+	{
+		sem_wait(ph->forks);
+		print_message(ph, TAKE_FORK);
+		ft_usleep(ph->args->time_to_eat);
+		sem_post(ph->forks);
+		sem_post(ph->meal_lock);
+		return ;
+	}
+	sem_wait(ph->forks);
+	print_message(ph, TAKE_FORK);
+	sem_wait(ph->forks);
+	print_message(ph, TAKE_FORK);
+	ph->eating = true;
+	print_message(ph, EAT);
+	ph->last_meal_time = get_current_time();
+	ph->meals++;
+	sem_post(ph->meal_lock);
+	ft_usleep(ph->args->time_to_sleep);
+	ph->eating = false;
+	sem_post(ph->forks);
+	sem_post(ph->forks);
+}
+
+void	think_routine(t_philo *ph)
+{
+	print_message(ph, THINK);
+}
+
+void	sleep_routine(t_philo *ph)
+{
+	print_message(ph, SLEEP);
+	ft_usleep(ph->args->time_to_sleep);
+}
+
+void	philo_routine(t_philo *ph)
+{
+	while (!dead_l(ph))
+	{
+		eat_routine(ph);
+		think_routine(ph);
+		sleep_routine(ph);
+	}
+}
+
+void	child(t_philo *ph)
+{
+	ph->pid = fork();
+	if (ph->pid == -1)
+		return ;
+	if (ph->pid == 0)
+	{
+		philo_routine(ph);
+	}
+}
+
+int	start_philo(t_philo *ph)
+{
+	pthread_t	thread;
+	int			i;
+
+	i = 0;
+	if (pthread_create(&thread, NULL, monitoring, ph) != 0)
+		return (1);
+	while (i < ph->args->num_of_philos)
+	{
+		child(ph);
+		i++;
+	}
+	if (pthread_join(thread, NULL) != 0)
+		return (1);
+	while (waitpid(-1, NULL, 0) != -1)
+		;
+	return (0);
 }
 
 int	main(int ac, char **av)
 {
 	t_arg	args;
-	t_philo	*ph;
-	t_sema	sem;
+	t_philo	ph;
 
 	if (ac != 5 && ac != 6)
 		return (ft_putstr("invalid number of arguments\n", 2), 1);
 	if (check_input(av))
 		return (1);
 	init_arg(&args, av);
-	init_sem(&sem, &args);
-	ph = init_philo(&args, &sem);
+	init_philo(&ph, &args);
+	start_philo(&ph);
 }
