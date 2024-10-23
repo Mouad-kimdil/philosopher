@@ -21,14 +21,6 @@ typedef struct s_arg
 	int				die;
 }	t_arg;
 
-typedef struct s_sema
-{
-	sem_t	*message_lock;
-	sem_t	*dead_lock;
-	sem_t	*meal_lock;
-	sem_t	*forks;
-}	t_sema;
-
 typedef struct s_philo
 {
 	pid_t	pid;
@@ -38,7 +30,10 @@ typedef struct s_philo
 	bool	eating;
 	size_t	start_time;
 	size_t	last_meal_time;
-	t_sema	*sem;
+	sem_t	*message_lock;
+	sem_t	*dead_lock;
+	sem_t	*meal_lock;
+	sem_t	*forks;
 	t_arg	*args;
 }	t_philo;
 
@@ -59,9 +54,8 @@ void	ft_putchar(char c, int fd);
 void	ft_putstr(char *s, int fd);
 int		ft_usleep(size_t milliseconds);
 size_t	get_current_time(void);
-t_philo	*init_philo(t_arg *args, t_sema *sem);
-void	init_sem(t_sema *sem, t_arg *args);
-void	monitoring(t_philo *ph);
+void	init_philo(t_philo *ph, t_arg *args);
+void	*monitoring(void *arg);
 bool	check_is_dead(t_philo *ph);
 bool	philo_dead(t_philo *ph);
 bool	check_is_eat(t_philo *ph);
