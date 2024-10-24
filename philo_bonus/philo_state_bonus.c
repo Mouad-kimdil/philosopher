@@ -14,7 +14,7 @@ bool	check_is_eat(t_philo *ph)
 	if (ph->args->num_times_to_eat == -1)
 		return (false);
 	sem_wait(ph->meal_lock);
-	if (ph->meals == ph->args->num_of_philos)
+	if (ph->meals == ph->args->num_times_to_eat)
 	{
 		sem_wait(ph->eated_lock);
 		*ph->eated = 1;
@@ -59,7 +59,6 @@ void	*monitoring(void *arg)
 	{
 		if (check_is_eat(ph) || check_is_dead(ph))
 			break ;
-		ft_usleep(100);
 	}
 	return (arg);
 }

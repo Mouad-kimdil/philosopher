@@ -13,26 +13,25 @@ void	print_message(t_philo *ph, char *s)
 
 void	eat_routine(t_philo *ph)
 {
+	sem_wait(ph->meal_lock);
 	if (ph->args->num_of_philos == 1)
 	{
 		sem_wait(ph->forks);
 		print_message(ph, TAKE_FORK);
 		ft_usleep(ph->args->time_to_die);
 		sem_post(ph->forks);
-		sem_post(ph->meal_lock);
 		return ;
 	}
 	sem_wait(ph->forks);
 	print_message(ph, TAKE_FORK);
 	sem_wait(ph->forks);
 	print_message(ph, TAKE_FORK);
-	sem_wait(ph->meal_lock);
 	ph->eating = true;
 	print_message(ph, EAT);
 	ph->last_meal_time = get_current_time();
 	ph->meals++;
 	sem_post(ph->meal_lock);
-	ft_usleep(ph->args->time_to_sleep);
+	ft_usleep(ph->args->time_to_eat);
 	ph->eating = false;
 	sem_post(ph->forks);
 	sem_post(ph->forks);
@@ -58,7 +57,8 @@ void	philo_routine(t_philo *ph)
 	while (!dead_l(ph))
 	{
 		eat_routine(ph);
-		ft_usleep(2);
+		ft_usleep(9);
+		// if (ph->args->num_of_philos == 1)
 		think_routine(ph);
 		sleep_routine(ph);
 	}
