@@ -74,6 +74,8 @@ void	*routine(void *arg)
 	while (!dead_l(ph))
 	{
 		eat_routine(ph);
+		if (ph->args->num_of_philos == 1)
+			ft_usleep(2);
 		sleep_routine(ph);
 		think_routine(ph);
 	}
