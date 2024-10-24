@@ -11,7 +11,7 @@ bool	dead_l(t_philo *ph)
 
 bool	check_is_eat(t_philo *ph)
 {
-	if (ph->args->num_of_philos == -1)
+	if (ph->args->num_times_to_eat == -1)
 		return (false);
 	sem_wait(ph->meal_lock);
 	if (ph->meals == ph->args->num_of_philos)
