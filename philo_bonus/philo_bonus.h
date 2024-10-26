@@ -12,6 +12,7 @@
 # include <sys/time.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <stdatomic.h> 
 
 typedef struct s_arg
 {
@@ -20,36 +21,33 @@ typedef struct s_arg
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	int				num_times_to_eat;
-	int				die;
-	int				eated;
-	int				status;
 }	t_arg;
 
 typedef	struct s_sema
 {
 	sem_t	*message;
-	sem_t	*dead;
 	sem_t	*meal;
 	sem_t	*eated;
+	sem_t	*dead;
 	sem_t	*forks;
 }	t_sema;
 
 typedef struct s_philo
 {
-	pid_t	pid;
-	int		*dead;
-	int		*eated;
-	int		meals;
-	int		philo_id;
-	bool	eating;
-	size_t	start_time;
-	size_t	last_meal_time;
-	sem_t	*eated_lock;
-	sem_t	*message_lock;
-	sem_t	*dead_lock;
-	sem_t	*meal_lock;
-	sem_t	*forks;
-	t_arg	*args;
+	pid_t			pid;
+	atomic_int		eated;
+	atomic_int		meals;
+	atomic_int		eating;
+	atomic_int		dead;
+	atomic_size_t   last_meal_time;
+	int				philo_id;
+	size_t			start_time;
+	sem_t			*dead_lock;
+	sem_t			*eated_lock;
+	sem_t			*message_lock;
+	sem_t			*meal_lock;
+	sem_t			*forks;
+	t_arg			*args;
 }	t_philo;
 
 # define TAKE_FORK "has taken a fork"
