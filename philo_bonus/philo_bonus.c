@@ -91,8 +91,8 @@ int	child(t_philo *ph)
 int	start_philo(t_philo *ph)
 {
 	int			*pids;
-	int			i;
 	int			status;
+	int			i;
 	int			meal;
 
 	pids = malloc(sizeof(int) * ph->args->num_of_philos);
@@ -101,35 +101,25 @@ int	start_philo(t_philo *ph)
 	i = 0;
 	while (i < ph->args->num_of_philos)
 	{
+		if (i > 1)
+			usleep(10);
 		pids[i] = child(&ph[i]);
 		i++;
 	}
-	int flag = 1;
 	meal = 0;
-	while (flag)
-	{
-		i = 0;
-		while (i < ph->args->num_of_philos)
-		{
-			printf("pids[%d]: %d\n", i, pids[i]);
-			if (waitpid(1, &status, 0) > 0)
-			{
-				if (WEXITSTATUS(status) == 1)
-				{
-					flag = 0;
-					break ;
-				}
-				if (WEXITSTATUS(status) == 2)
-					meal++;
-				if (meal == ph->args->num_of_philos)
-				{
-					flag = 0;
-					break ;
-				}
-			}
-			i++;
-		}
-	}
+	while (1)
+    {
+        if (waitpid(-1, &status, WNOHANG) > 0)
+        {
+            if (WEXITSTATUS(status) == 1)
+                break ;
+            if (WEXITSTATUS(status) == 2)
+                meal++;
+            if (meal == ph->args->num_of_philos)
+                break ;
+        }
+		usleep(300);
+    }
 	i = 0;
 	while (i < ph->args->num_of_philos)
 	{

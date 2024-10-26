@@ -43,11 +43,11 @@ bool	check_is_dead(t_philo *ph)
 {
 	if (philo_dead(ph, ph->args->time_to_die))
 	{
-		print_message(ph, DEAD);
 		sem_wait(ph->dead_lock);
 		atomic_store(&ph->dead, 1);
 		sem_post(ph->dead_lock);
-		return (true);
+		print_message(ph, DEAD);
+		exit (1);
 	}
 	return (false);
 }
