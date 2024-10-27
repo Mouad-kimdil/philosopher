@@ -48,6 +48,7 @@ typedef struct s_philo
 	sem_t			*meal_lock;
 	sem_t			*forks;
 	t_arg			*args;
+	int				i;
 }	t_philo;
 
 # define TAKE_FORK "has taken a fork"

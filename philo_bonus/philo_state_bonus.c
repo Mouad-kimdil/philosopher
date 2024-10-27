@@ -46,8 +46,7 @@ bool	check_is_dead(t_philo *ph)
 		sem_wait(ph->dead_lock);
 		atomic_store(&ph->dead, 1);
 		sem_post(ph->dead_lock);
-		print_message(ph, DEAD);
-		exit (1);
+		exit (ph->i);
 	}
 	return (false);
 }

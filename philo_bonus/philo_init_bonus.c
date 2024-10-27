@@ -26,6 +26,7 @@ t_philo	*init_philo(t_arg *args, t_sema *sem)
 		ph[i].dead_lock = sem->dead;
 		ph[i].forks = sem->forks;
 		ph[i].args = args;
+		ph[i].i = 0;
 		i++;
     }
     return (ph);

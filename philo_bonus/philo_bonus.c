@@ -18,19 +18,19 @@ void	eat_routine(t_philo *ph)
 		return ;
 	}
 	if (dead_l(ph))
-        return ;
+		return ;
 	sem_wait(ph->forks);
 	print_message(ph, TAKE_FORK);
 	sem_wait(ph->forks);
 	print_message(ph, TAKE_FORK);
 	sem_wait(ph->meal_lock);
-    atomic_store(&ph->eating, 1);
-    print_message(ph, EAT);
-    atomic_store(&ph->last_meal_time, get_current_time());
-    atomic_fetch_add(&ph->meals, 1);
-    atomic_store(&ph->eating, 0);
-    ft_usleep(ph->args->time_to_eat);
-    sem_post(ph->meal_lock);
+	atomic_store(&ph->eating, 1);
+	print_message(ph, EAT);
+	atomic_store(&ph->last_meal_time, get_current_time());
+	atomic_fetch_add(&ph->meals, 1);
+	sem_post(ph->meal_lock);
+	ft_usleep(ph->args->time_to_eat);
+	atomic_store(&ph->eating, 0);
 	sem_post(ph->forks);
 	sem_post(ph->forks);
 }
@@ -53,29 +53,17 @@ void	philo_routine(t_philo *ph)
 	if (pthread_create(&thread_1, NULL, monitoring, ph) != 0)
 		return ;
 	while (!dead_l(ph))
-    {
-        eat_routine(ph);
-        if (dead_l(ph))
-            break ;
-        think_routine(ph);
-        sleep_routine(ph);
-    }
+	{
+		eat_routine(ph);
+		if (dead_l(ph))
+			break ;
+		think_routine(ph);
+		sleep_routine(ph);
+	}
 	if (pthread_join(thread_1, NULL) != 0)
 		return ;
-	sem_wait(ph->meal_lock);
 	if (atomic_load(&ph->eated) == 1)
-	{
-		sem_post(ph->meal_lock);
-		exit(2);
-	}
-	sem_post(ph->meal_lock);
-	sem_wait(ph->dead_lock);
-	if (atomic_load(&ph->dead) == 1)
-	{
-		sem_post(ph->dead_lock);
-		exit (1);
-	}
-	sem_post(ph->dead_lock);
+		exit (212);
 }
 
 int	child(t_philo *ph)
@@ -101,25 +89,38 @@ int	start_philo(t_philo *ph)
 	i = 0;
 	while (i < ph->args->num_of_philos)
 	{
-		if (i > 1)
-			usleep(10);
+		ph[i].i = i;
 		pids[i] = child(&ph[i]);
 		i++;
 	}
 	meal = 0;
-	while (1)
-    {
-        if (waitpid(-1, &status, WNOHANG) > 0)
-        {
-            if (WEXITSTATUS(status) == 1)
-                break ;
-            if (WEXITSTATUS(status) == 2)
-                meal++;
-            if (meal == ph->args->num_of_philos)
-                break ;
-        }
+	int flag = 1;
+	while (flag)
+	{
+		i = 0;
+		while (i < ph->args->num_of_philos)
+		{
+			waitpid(pids[i], &status, WNOHANG);
+			if (WEXITSTATUS(status) == i)
+			{
+				printf("%zu %d %s\n", get_current_time() - ph->start_time, i + 1, DEAD);
+				flag = 0;
+				break ;
+			}
+			if (WEXITSTATUS(status) == 212)
+			{
+				meal++;
+				status = -1;
+			}
+			if (meal == ph->args->num_of_philos)
+			{
+				flag = 0;
+				break ;
+			}
+			i++;
+		}
 		usleep(300);
-    }
+	}
 	i = 0;
 	while (i < ph->args->num_of_philos)
 	{
