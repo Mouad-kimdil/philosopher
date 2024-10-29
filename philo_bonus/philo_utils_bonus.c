@@ -1,4 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_utils_bonus.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 00:15:08 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/10/30 00:15:09 by mkimdil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_bonus.h"
+
+void	print_message(t_philo *ph, char *s)
+{
+	sem_wait(ph->message_lock);
+	printf("%zu %d %s\n", time_now() - ph->start_time, ph->philo_id, s);
+	sem_post(ph->message_lock);
+}
 
 int	is_valid_number(char *str)
 {

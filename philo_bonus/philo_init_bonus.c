@@ -1,35 +1,52 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_init_bonus.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 00:09:27 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/10/30 00:12:47 by mkimdil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_bonus.h"
+
+void	init_philo_help(t_philo *ph, int i)
+{
+	ph[i].philo_id = i + 1;
+	ph[i].start_time = time_now();
+	ph[i].last_meal_time = time_now();
+	ph[i].pid = -1;
+	ph[i].i = 0;
+}
 
 t_philo	*init_philo(t_arg *args, t_sema *sem)
 {
-    t_philo	*ph;
-    int		i;
+	t_philo	*ph;
+	int		i;
 
-    i = 0;
-    ph = malloc(sizeof(t_philo) * args->num_of_philos);
-    if (!ph)
+	i = 0;
+	ph = malloc(sizeof(t_philo) * args->num_of_philos);
+	if (!ph)
 		return (NULL);
-    while (i < args->num_of_philos)
-    {
+	while (i < args->num_of_philos)
+	{
 		atomic_init(&ph[i].eating, 0);
 		atomic_init(&ph[i].meals, 0);
 		atomic_init(&ph[i].eated, 0);
 		atomic_init(&ph[i].dead, 0);
-		atomic_init(&ph[i].last_meal_time, get_current_time());
-		ph[i].philo_id = i + 1;
-		ph[i].start_time = get_current_time();
-		ph[i].last_meal_time = get_current_time();
-		ph[i].pid = -1;
+		atomic_init(&ph[i].last_meal_time, time_now());
+		init_philo_help(ph, i);
 		ph[i].eated_lock = sem->eated;
 		ph[i].message_lock = sem->message;
 		ph[i].meal_lock = sem->meal;
 		ph[i].dead_lock = sem->dead;
 		ph[i].forks = sem->forks;
 		ph[i].args = args;
-		ph[i].i = 0;
 		i++;
-    }
-    return (ph);
+	}
+	return (ph);
 }
 
 void	init_arg(t_arg *args, char **av)

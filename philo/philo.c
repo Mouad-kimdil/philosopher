@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/29 23:26:09 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/10/29 23:34:04 by mkimdil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 bool	dead_l(t_philo *ph)
@@ -17,7 +29,7 @@ void	print_message(t_philo *ph, char *message)
 	size_t	time;
 
 	pthread_mutex_lock(ph->message);
-	time = get_current_time() - ph->start_time;
+	time = time_now() - ph->start_time;
 	if (!dead_l(ph))
 		printf("%zu %d %s\n", time, ph->philo_id, message);
 	pthread_mutex_unlock(ph->message);

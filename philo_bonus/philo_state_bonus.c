@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_state_bonus.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 00:14:49 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/10/30 00:15:02 by mkimdil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_bonus.h"
 
 bool	dead_l(t_philo *ph)
@@ -29,7 +41,7 @@ bool	check_is_eat(t_philo *ph)
 bool	philo_dead(t_philo *ph, size_t time_to_die)
 {
 	sem_wait(ph->meal_lock);
-	if (get_current_time() - ph->last_meal_time >= time_to_die
+	if (time_now() - ph->last_meal_time >= time_to_die
 		&& atomic_load(&ph->eating) == false)
 	{
 		sem_post(ph->meal_lock);
@@ -53,7 +65,7 @@ bool	check_is_dead(t_philo *ph)
 
 void	*monitoring(void *arg)
 {
-	t_philo *ph;
+	t_philo	*ph;
 
 	ph = (t_philo *) arg;
 	while (true)

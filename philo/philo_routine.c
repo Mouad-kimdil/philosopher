@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_routine.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/29 23:25:58 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/10/29 23:34:04 by mkimdil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	sleep_routine(t_philo *ph)
@@ -44,7 +56,7 @@ void	eat_routine(t_philo *ph)
 	pthread_mutex_lock(ph->meal);
 	print_message(ph, EAT);
 	ph->eating = true;
-	ph->last_meal_time = get_current_time();
+	ph->last_meal_time = time_now();
 	ph->meals++;
 	pthread_mutex_unlock(ph->meal);
 	ft_usleep(ph->args->time_to_eat);
