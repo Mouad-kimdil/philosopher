@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo_state.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/18 00:44:13 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/20 18:18:39 by mkimdil          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philo.h"
 
 bool	philo_dead(t_philo *ph, size_t time_to_die)
@@ -78,7 +66,7 @@ void	*deatach(void *arg)
 	{
 		if (check_is_dead(ph) || check_is_eat(ph))
 			break ;
-		ft_usleep(200);
+		usleep(200);
 	}
 	return (arg);
 }

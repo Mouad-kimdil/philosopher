@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo_routine.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/18 00:38:17 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/20 18:17:37 by mkimdil          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philo.h"
 
 void	sleep_routine(t_philo *ph)
@@ -41,22 +29,21 @@ void	lock_forks(t_philo *ph, int flag)
 
 void	eat_routine(t_philo *ph)
 {
-	pthread_mutex_lock(ph->meal);
 	if (ph->args->num_of_philos == 1)
 	{
 		pthread_mutex_lock(ph->r_fork);
 		print_message(ph, TAKE_FORK);
 		ft_usleep(ph->args->time_to_die);
 		pthread_mutex_unlock(ph->r_fork);
-		pthread_mutex_unlock(ph->meal);
 		return ;
 	}
-	if (ph->l_fork < ph->r_fork)
-		lock_forks(ph, 1);
-	else
+	if (ph->philo_id % 2 == 0)
 		lock_forks(ph, 0);
-	ph->eating = true;
+	else
+		lock_forks(ph, 1);
+	pthread_mutex_lock(ph->meal);
 	print_message(ph, EAT);
+	ph->eating = true;
 	ph->last_meal_time = get_current_time();
 	ph->meals++;
 	pthread_mutex_unlock(ph->meal);
@@ -71,11 +58,12 @@ void	*routine(void *arg)
 	t_philo	*ph;
 
 	ph = (t_philo *)arg;
+	if (ph->philo_id % 2 == 0)
+		usleep(10);
 	while (!dead_l(ph))
 	{
 		eat_routine(ph);
-		if (ph->args->num_of_philos == 1)
-			usleep(1);
+		ft_usleep(2);
 		sleep_routine(ph);
 		think_routine(ph);
 	}

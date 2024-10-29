@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/20 18:06:15 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/20 18:27:48 by mkimdil          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philo.h"
 
 bool	dead_l(t_philo *ph)
@@ -45,7 +33,7 @@ int	start_philo(t_arg *args, t_philo *ph)
 	i = 0;
 	while (i < args->num_of_philos)
 	{
-		if (pthread_create(&ph[i].thread, NULL, &routine, (void *)&ph[i]) != 0)
+		if (pthread_create(&ph[i].thread, NULL, &routine, &ph[i]) != 0)
 			return (1);
 		i++;
 	}
