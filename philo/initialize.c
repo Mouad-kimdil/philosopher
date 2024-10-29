@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initialize.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/29 23:25:34 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/10/29 23:34:04 by mkimdil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	destroy_forks(pthread_mutex_t *fork, int num_of_philo)
@@ -61,8 +73,8 @@ t_philo	*init_ph(t_arg *args, pthread_mutex_t *forks, t_mutex *mutex)
 		ph[i].meal = mutex->mel;
 		ph[i].r_fork = &forks[i];
 		ph[i].l_fork = &forks[(i + 1) % args->num_of_philos];
-		ph[i].start_time = get_current_time();
-		ph[i].last_meal_time = get_current_time();
+		ph[i].start_time = time_now();
+		ph[i].last_meal_time = time_now();
 		ph[i].args = args;
 		i++;
 	}

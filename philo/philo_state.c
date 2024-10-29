@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_state.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/29 23:25:29 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/10/29 23:34:04 by mkimdil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 bool	philo_dead(t_philo *ph, size_t time_to_die)
 {
 	pthread_mutex_lock(ph->meal);
-	if (get_current_time() - ph->last_meal_time >= time_to_die
+	if (time_now() - ph->last_meal_time >= time_to_die
 		&& ph->eating == false)
 		return (pthread_mutex_unlock(ph->meal), true);
 	pthread_mutex_unlock(ph->meal);

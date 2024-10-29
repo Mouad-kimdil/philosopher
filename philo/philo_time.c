@@ -1,16 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_time.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/29 23:26:04 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/10/29 23:34:04 by mkimdil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	ft_usleep(size_t milliseconds)
 {
 	size_t	start;
 
-	start = get_current_time();
-	while ((get_current_time() - start) < milliseconds)
+	start = time_now();
+	while ((time_now() - start) < milliseconds)
 		usleep(500);
 	return (0);
 }
 
-size_t	get_current_time(void)
+size_t	time_now(void)
 {
 	struct timeval	time;
 

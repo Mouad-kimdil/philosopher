@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 00:08:21 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/10/30 00:08:47 by mkimdil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
@@ -23,7 +35,7 @@ typedef struct s_arg
 	int				num_times_to_eat;
 }	t_arg;
 
-typedef	struct s_sema
+typedef struct s_sema
 {
 	sem_t	*message;
 	sem_t	*meal;
@@ -39,7 +51,7 @@ typedef struct s_philo
 	atomic_int		meals;
 	atomic_int		eating;
 	atomic_int		dead;
-	atomic_size_t   last_meal_time;
+	atomic_size_t	last_meal_time;
 	int				philo_id;
 	size_t			start_time;
 	sem_t			*dead_lock;
@@ -67,7 +79,7 @@ int		is_number(int c);
 void	ft_putchar(char c, int fd);
 void	ft_putstr(char *s, int fd);
 int		ft_usleep(size_t milliseconds);
-size_t	get_current_time(void);
+size_t	time_now(void);
 t_philo	*init_philo(t_arg *args, t_sema *sem);
 void	*monitoring(void *arg);
 bool	check_is_dead(t_philo *ph);
@@ -75,5 +87,9 @@ bool	philo_dead(t_philo *ph, size_t time_to_die);
 bool	check_is_eat(t_philo *ph);
 bool	dead_l(t_philo *ph);
 void	print_message(t_philo *ph, char *s);
+void	eat_routine(t_philo *ph);
+void	think_routine(t_philo *ph);
+void	sleep_routine(t_philo *ph);
+void	philo_routine(t_philo *ph);
 
 #endif

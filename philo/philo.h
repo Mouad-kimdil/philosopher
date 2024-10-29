@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/29 23:26:11 by mkimdil           #+#    #+#             */
+/*   Updated: 2024/10/29 23:34:04 by mkimdil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -58,7 +70,7 @@ int				check_input(char **av);
 int				ft_strlen(char *str);
 long			ft_atoi(char *str);
 int				ft_usleep(size_t milliseconds);
-size_t			get_current_time(void);
+size_t			time_now(void);
 void			sleep_routine(t_philo *ph);
 void			think_routine(t_philo *ph);
 void			eat_routine(t_philo *ph);
