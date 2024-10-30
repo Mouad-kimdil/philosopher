@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 23:30:55 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/30 05:03:53 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/31 00:13:19 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_philos_status(int *pids, t_philo *ph)
 	int	meals;
 	int	i;
 
-	meals = 0;
+	(1) && (meals = 0, status = -1, 0);
 	while (1)
 	{
 		i = 0;
