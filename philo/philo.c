@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 23:26:09 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/29 23:34:04 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/30 03:19:08 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	start_philo(t_arg *args, t_philo *ph)
 	pthread_t	thread;
 	int			i;
 
-	if (pthread_create(&thread, NULL, &deatach, ph) != 0)
+	if (pthread_create(&thread, NULL, &detach, ph) != 0)
 		return (1);
 	i = 0;
 	while (i < args->num_of_philos)
@@ -61,6 +61,11 @@ int	start_philo(t_arg *args, t_philo *ph)
 	return (0);
 }
 
+void	check_leaks(void)
+{
+	system("leaks philo");
+}
+
 int	main(int ac, char **av)
 {
 	t_mutex			mutex;
@@ -68,22 +73,24 @@ int	main(int ac, char **av)
 	t_philo			*ph;
 	pthread_mutex_t	*forks;
 
+	atexit(check_leaks);
 	if (ac != 5 && ac != 6)
 		return (ft_putstr("invalid number of arguments\n", 2), 1);
 	if (check_input(av))
 		return (1);
-	init_arg(&args, av);
+	if (init_arg(&args, av))
+		return (ft_putstr("number of philos more than 200\n", 2), 1);
 	mutex.lock = mutex_end();
 	mutex.msg = mutex_message();
 	mutex.mel = mutex_meal();
-	mutex.death = 0;
 	forks = mutex_fork(&args);
-	if (!forks)
-		return (EXIT_FAILURE);
+	mutex.death = 0;
+	if (!forks || !mutex.lock || !mutex.msg || !mutex.mel)
+		return (free_locks(&mutex, forks, args.num_of_philos), 1);
 	ph = init_ph(&args, forks, &mutex);
 	if (!ph)
-		return (EXIT_FAILURE);
+		return (free_locks(&mutex, forks, args.num_of_philos), 1);
 	start_philo(&args, ph);
-	free_all(ph, forks, &mutex);
-	return (free(mutex.lock), free(mutex.msg), free(mutex.mel), 0);
+	free_locks(&mutex, forks, args.num_of_philos);
+	return (my_free((void **)&ph), 0);
 }

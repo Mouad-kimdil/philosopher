@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 23:26:11 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/29 23:34:04 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/30 03:20:02 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,14 @@ pthread_mutex_t	*mutex_meal(void);
 bool			philo_dead(t_philo *ph, size_t time_to_die);
 bool			check_is_dead(t_philo *ph);
 bool			check_is_eat(t_philo *ph);
-void			*deatach(void *arg);
-void			init_arg(t_arg *arg, char **av);
+int				check_overflow(char *str);
+int				init_arg(t_arg *arg, char **av);
 t_philo			*init_ph(t_arg *args, pthread_mutex_t *forks, t_mutex *mutex);
+void			*detach(void *arg);
 bool			dead_l(t_philo *ph);
 void			print_message(t_philo *ph, char *message);
 int				start_philo(t_arg *args, t_philo *ph);
-int				destroy_forks(pthread_mutex_t *fork, int num_of_philo);
-int				free_mutex(t_mutex *mutex);
-int				free_all(t_philo *ph, pthread_mutex_t *fork, t_mutex *mutex);
 void			lock_forks(t_philo *ph, int flag);
-
+void			my_free(void **arg);
+void			free_locks(t_mutex *mutex, pthread_mutex_t *forks, int num);
 #endif

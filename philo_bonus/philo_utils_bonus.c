@@ -6,11 +6,40 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 00:15:08 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/30 00:15:09 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/30 05:04:01 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+void	close_sema(t_sema *sem)
+{
+	if (sem->dead)
+	{
+		sem_unlink("dead");
+		sem_close(sem->dead);
+	}
+	if (sem->forks)
+	{
+		sem_unlink("forks");
+		sem_close(sem->forks);
+	}
+	if (sem->meal)
+	{
+		sem_unlink("meal");
+		sem_close(sem->meal);
+	}
+	if (sem->message)
+	{
+		sem_unlink("message");
+		sem_close(sem->message);
+	}
+	if (sem->eated)
+	{
+		sem_unlink("eated");
+		sem_close(sem->eated);
+	}
+}
 
 void	print_message(t_philo *ph, char *s)
 {

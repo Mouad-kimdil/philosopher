@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 23:25:29 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/29 23:34:04 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/30 03:19:01 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool	check_is_eat(t_philo *ph)
 	return (false);
 }
 
-void	*deatach(void *arg)
+void	*detach(void *arg)
 {
 	t_philo	*ph;
 

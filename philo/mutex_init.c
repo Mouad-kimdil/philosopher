@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 23:25:41 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/29 23:25:42 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/30 02:41:57 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	free_forks(pthread_mutex_t *forks, int i)
 			return ;
 		i++;
 	}
-	free(forks);
+	my_free((void **)&forks);
 }
 
 pthread_mutex_t	*mutex_fork(t_arg *args)

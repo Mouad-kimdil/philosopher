@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 00:09:27 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/30 00:12:47 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/30 04:41:41 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_philo	*init_philo(t_arg *args, t_sema *sem)
 	return (ph);
 }
 
-void	init_arg(t_arg *args, char **av)
+int	init_arg(t_arg *args, char **av)
 {
 	args->num_of_philos = ft_atoi(av[1]);
 	args->time_to_die = ft_atoi(av[2]);
@@ -58,4 +58,7 @@ void	init_arg(t_arg *args, char **av)
 	args->num_times_to_eat = -1;
 	if (av[5])
 		args->num_times_to_eat = ft_atoi(av[5]);
+	if (args->num_of_philos > 200)
+		return (1);
+	return (0);
 }
