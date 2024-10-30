@@ -2,8 +2,8 @@ SRC = philo_bonus.c philo_init_bonus.c philo_utils_bonus.c libc_bonus.c \
 		philo_time_bonus.c philo_state_bonus.c philo_routine_bonus.c
 CC = cc
 NAME = philo_bonus
-FLAGS = -Wall -Wextra -Werror #-fsanitize=thread
-OBJS = $(addprefix obj/, $(SRC:.c=.o))
+FLAGS = -Wall -Wextra -Werror
+OBJS = $(addprefix obj/, $(SRC:.c=.o)) 
 INC = philo_bonus.h
 
 all: ${NAME}

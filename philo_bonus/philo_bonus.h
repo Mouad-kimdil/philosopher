@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 00:08:21 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/30 00:08:47 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/30 05:06:41 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_philo
 int		check_input(char **av);
 int		check_overflow(char *str);
 int		is_valid_number(char *str);
-void	init_arg(t_arg *arg, char **av);
+int		init_arg(t_arg *arg, char **av);
 long	ft_atoi(char *str);
 int		ft_strlen(char *str);
 int		is_number(int c);
@@ -91,5 +91,11 @@ void	eat_routine(t_philo *ph);
 void	think_routine(t_philo *ph);
 void	sleep_routine(t_philo *ph);
 void	philo_routine(t_philo *ph);
+int		child(t_philo *ph);
+int		check_philos_status(int *pids, t_philo *ph);
+int		start_philo(t_philo *ph);
+sem_t	*init_semaphores(char *s, int value);
+void	init_philo_help(t_philo *ph, int i);
+void	close_sema(t_sema *sem);
 
 #endif
