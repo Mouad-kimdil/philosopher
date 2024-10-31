@@ -6,7 +6,7 @@
 /*   By: mkimdil <mkimdil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 23:30:55 by mkimdil           #+#    #+#             */
-/*   Updated: 2024/10/31 00:13:19 by mkimdil          ###   ########.fr       */
+/*   Updated: 2024/10/31 01:16:13 by mkimdil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,22 @@ int	check_philos_status(int *pids, t_philo *ph)
 	int	meals;
 	int	i;
 
-	(1) && (meals = 0, status = -1, 0);
+	meals = 0;
+	status = -1;
 	while (1)
 	{
-		i = 0;
-		while (i < ph->args->num_of_philos)
+		i = -1;
+		while (++i < ph->args->num_of_philos)
 		{
 			waitpid(pids[i], &status, WNOHANG);
-			if (WEXITSTATUS(status) == i)
-			{
-				printf("%zu %d %s\n", time_now() - ph->start_time, i + 1, DEAD);
+			if (WIFSIGNALED(status))
 				return (1);
-			}
-			if (WEXITSTATUS(status) == 212)
-				(1) && (meals++, status = -1);
+			if (WEXITSTATUS(status) == i)
+				return (printf("%zu %d %s\n", time_now() - ph->start_time
+						, i + 1, DEAD), 1);
+			(WEXITSTATUS(status) == 212) && (meals++, status = -1, 0);
 			if (meals == ph->args->num_of_philos)
 				return (1);
-			i++;
 		}
 		usleep(300);
 	}
