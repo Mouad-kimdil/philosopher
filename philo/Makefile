@@ -2,9 +2,15 @@ SRC = libc.c philo.c philo_utils.c philo_time.c philo_routine.c mutex_init.c \
 	 	initialize.c philo_state.c error.c
 NAME = philo
 CC = cc
-FLAGS = -Wall -Wextra -Werror
 OBJS = $(addprefix obj/, $(SRC:.c=.o))
 INC = philo.h
+OS = ${shell uname -s}
+
+ifeq (${OS}, Linux)
+	FLAGS = -Wall -Wextra -Werror -pthread
+else
+	FLAGS = -Wall -Wextra -Werror
+endif
 
 all: ${NAME}
 

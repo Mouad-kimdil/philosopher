@@ -61,11 +61,6 @@ int	start_philo(t_arg *args, t_philo *ph)
 	return (0);
 }
 
-void	check_leaks(void)
-{
-	system("leaks philo");
-}
-
 int	main(int ac, char **av)
 {
 	t_mutex			mutex;
@@ -73,7 +68,6 @@ int	main(int ac, char **av)
 	t_philo			*ph;
 	pthread_mutex_t	*forks;
 
-	atexit(check_leaks);
 	if (ac != 5 && ac != 6)
 		return (ft_putstr("invalid number of arguments\n", 2), 1);
 	if (check_input(av))
