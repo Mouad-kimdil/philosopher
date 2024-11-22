@@ -18,7 +18,7 @@ int	ft_usleep(size_t milliseconds)
 
 	start = time_now();
 	while ((time_now() - start) < milliseconds)
-		usleep(590);
+		usleep(1000);
 	return (0);
 }
 
