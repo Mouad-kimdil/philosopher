@@ -54,7 +54,8 @@ int	start_philo(t_arg *args, t_philo *ph)
 		return (1);
 	while (i < args->num_of_philos)
 	{
-		if (pthread_join(ph[i].thread, NULL) != 0)
+		//if (pthread_join(ph[i].thread, NULL) != 0)
+		if (pthread_detach(ph[i].thread) != 0)
 			return (1);
 		i++;
 	}
